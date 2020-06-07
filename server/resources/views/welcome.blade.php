@@ -65,6 +65,12 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+            @if (session('flash_message'))
+            <div class="flash_message">
+                {{ session('flash_message') }}
+            </div>
+        @endif
+        
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth 

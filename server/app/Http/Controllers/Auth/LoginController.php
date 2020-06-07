@@ -36,7 +36,7 @@ class LoginController extends Controller
         $existUser = User::where('uid', $providerUser->getId())->first();
         if($existUser) {
             Auth::login($existUser);
-            return redirect('/');
+            return redirect('/')->with('flash_message', 'ログイン済です');
         }
 
         $user = new User();
@@ -47,6 +47,15 @@ class LoginController extends Controller
         $user->save();
         
         Auth::login($user);
+        return redirect('/');
+    }
+    
+    /**
+     * ログアウト
+     */
+    public function logout()
+    {
+        Auth::logout();
         return redirect('/');
     }
 }

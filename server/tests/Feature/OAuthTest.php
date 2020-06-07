@@ -12,11 +12,12 @@ use Auth;
 
 class OAuthTest extends TestCase
 {
+    use RefreshDatabase;
     /** @test */
     public function 認証画面の表示ができる()
     {
         $response = $this->get(route('login'));
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
 
     /** @test */
@@ -48,6 +49,16 @@ class OAuthTest extends TestCase
             'nickname' => $abstractUser->getNickname(),
             'avatar' => $abstractUser->getAvatar(),
         ]);
-        $this->assertAuthenticated();
+        $this->assertTrue(Auth::check());
+    }
+
+    /** @test */
+    public function ログアウトに成功()
+    {
+        $this->Twitterログインに成功しに登録できる();
+        $this->assertTrue(Auth::check());
+        $response = $this->post(route('logout'));
+        $response->assertRedirect('/');
+        $this->assertFalse(Auth::check());
     }
 }
