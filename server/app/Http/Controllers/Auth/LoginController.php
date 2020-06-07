@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
 use App\Models\User;
 use Auth;
+use DB;
 
 class LoginController extends Controller
 {
@@ -31,21 +32,13 @@ class LoginController extends Controller
             $providerUser = Socialite::driver('twitter')->user();
         } 
         catch (\Exception $e) {
-            return redirect('/')->with('oauth_error', 'ログインに失敗しました');
+            return redirect('/')->with('flash_message', 'ログインに失敗しました');
         }
-        $existUser = User::where('uid', $providerUser->getId())->first();
-        if($existUser) {
-            Auth::login($existUser);
-            return redirect('/')->with('flash_message', 'ログイン済です');
-        }
-
-        $user = new User();
-        $user->uid = $providerUser->getId();
-        $user->name     = $providerUser->getName();
-        $user->nickname = $providerUser->getNickname();
-        $user->avatar   = $providerUser->getAvatar();
-        $user->save();
-        
+        $user = User::updateOrCreate(['uid' => $providerUser->getId()], [
+            'name' => $providerUser->getName(),
+            'nickname' => $providerUser->getNickname(),
+            'avatar' => $providerUser->getAvatar(),
+        ]);
         Auth::login($user);
         return redirect('/');
     }
@@ -56,6 +49,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect('/')->with('flash_message', 'ログアウトしました');
     }
 }
