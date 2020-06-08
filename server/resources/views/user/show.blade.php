@@ -9,4 +9,15 @@
   {{ Form::date('due_date') }}
   {{ Form::Submit('完了') }}
 {{ Form::close() }}
+
+@if($todos->count())
+  @foreach($todos as $todo)
+    {{ $todo->id }}
+    {{ $todo->content }}
+    {{ $todo->due_date }}
+  @endforeach
+@else
+  Todoはありません。
+@endif
+
 @endsection
