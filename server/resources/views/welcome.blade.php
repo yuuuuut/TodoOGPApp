@@ -12,8 +12,9 @@
                     @auth 
                         {{ Auth::user()->nickname }}
                         <a href="{{ url('/home') }}">Home</a>
+                        <a href="/users/{{ Auth::user()->nickname }}">マイページ</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login</>
                     @endauth
                 </div>
             @endif
