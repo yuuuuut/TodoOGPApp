@@ -3,6 +3,10 @@
 @section('content')
 <h1>{{ $user->nickname }}</h1>
 
+@foreach($errors->all() as $message)
+  {{ $message }}
+@endforeach
+
 {{ Form::open(['url' => url('todos')]) }}
   {{ Form::hidden('uid', $user->uid) }}
   {{ Form::textarea('content') }}
