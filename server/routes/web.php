@@ -10,5 +10,8 @@ Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProvider
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('users', 'UserController')->only(['show']);
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('todos', 'TodoController')->only(['store']);
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
