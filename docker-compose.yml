@@ -31,3 +31,8 @@ services:
     - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
     - 3305:3306
+
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - 4444:4444
