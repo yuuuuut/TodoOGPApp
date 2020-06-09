@@ -38,7 +38,7 @@ class TodoTest extends TestCase
     {
         $this->Todoの作成ができる();
         $response = $this->get("/todos/1");
-        $response->assertStatus(200);
+        $response->assertStatus(200); 
     }
 
     /** @test */
@@ -47,6 +47,7 @@ class TodoTest extends TestCase
         $this->Todoの作成ができる();
         $response = $this->get("/todos/1/ogp.png");
         $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'image/png');
     }
 
     public function User作成()
