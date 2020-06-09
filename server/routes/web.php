@@ -13,5 +13,6 @@ Route::resource('users', 'UserController')->only(['show']);
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('todos', 'TodoController')->only(['show','store']);
 });
+Route::get('todos/{id}/ogp.png', 'TodoController@ogp');
 
 Route::get('/home', 'HomeController@index')->name('home');

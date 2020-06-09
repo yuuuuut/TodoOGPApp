@@ -26,4 +26,12 @@ class TodoController extends Controller
 
         return redirect("users/$user->nickname");
     }
+
+    public function ogp($id)
+    {
+        $todo = Todo::findOrFail($id);
+        $image = $todo->generateOgp($id);
+        return response($image, 200)
+                ->header('Content-Type', 'image/png');
+    }
 }
