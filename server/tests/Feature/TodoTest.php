@@ -22,7 +22,7 @@ class TodoTest extends TestCase
             'uid'      => $user->uid,
             'user_id'  => $user->id,
             'content'  => 'test',
-            'due_date' => '2000-04-01',
+            'due_date' => '2030-04-01',
         ];
         $this->withoutExceptionHandling();
         $this->assertDatabaseMissing('todos', $data);
