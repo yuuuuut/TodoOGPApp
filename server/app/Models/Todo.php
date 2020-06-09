@@ -20,7 +20,7 @@ class Todo extends Model
             $font->align('center');
             $font->valign('top');
         });
-        $image->resize(600, 360);
+        $image->resize(600, 355);
         $save_path = storage_path('ogp/' . $id . '.jpg');
         $image->save($save_path);
         return $image;
