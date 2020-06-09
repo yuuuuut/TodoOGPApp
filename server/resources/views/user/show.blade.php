@@ -19,6 +19,7 @@
     {{ $todo->id }}
     {{ $todo->content }}
     {{ $todo->due_date }}
+    <a href="/todos/{{ $todo->id }}">もっと見る</a>
   @endforeach
 @else
   Todoはありません。

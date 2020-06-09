@@ -10,6 +10,11 @@ use Auth;
 
 class TodoController extends Controller
 {
+    public function show(Todo $todo)
+    {
+        return view('todo.show', compact('todo'));
+    }
+
     public function store(CreateTodo $request)
     {
         $user = User::where('uid', $request->input('uid'))->firstOrFail();

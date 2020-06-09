@@ -11,7 +11,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('users', 'UserController')->only(['show']);
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('todos', 'TodoController')->only(['store']);
+    Route::resource('todos', 'TodoController')->only(['show','store']);
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
