@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Socialite;
 use Mockery;
@@ -30,6 +31,22 @@ class TodoTest extends TestCase
         $response->assertStatus(302)
             ->assertRedirect("/users/$user->nickname");
         $this->assertEquals(1, Todo::count());
+    }
+
+    /** @test */
+    public function Todoの個別ページにアクセスできる()
+    {
+        $this->Todoの作成ができる();
+        $response = $this->get("/todos/1");
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function OGP画像ページにアクセスできる()
+    {
+        $this->Todoの作成ができる();
+        $response = $this->get("/todos/1/ogp.png");
+        $response->assertStatus(200);
     }
 
     public function User作成()
