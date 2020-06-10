@@ -35,36 +35,11 @@ class TodoTest extends DuskTestCase
     /** @test */
     public function ログインしてる場合のリンク表示()
     {
-        $user = $this->User作成();
-        $this->browse(function (Browser $browser) use ($user) {
+        $this->browse(function (Browser $browser) {
+            $user = $this->User作成();
             $browser->loginAs($user)->visit('/')
                     ->assertSeeLink('Home')
                     ->assertSeeLink('マイページ');
-        });
-    }
-
-    /** @test */
-    public function Todoの作成ができる()
-    {
-        $user = $this->User作成();
-        $this->browse(function (Browser $browser) use ($user) {
-            $browser->loginAs($user)->visit("/")
-                    ->type('content', 'Todotest')
-                    ->type('due_date', '0401-20-30')
-                    ->click('.todo__createButton')
-                    ->assertSee('Todotest');
-            $this->assertEquals(1, Todo::count());
-        });
-    }
-
-    /** @test */
-    public function Todo個別ページにアクセスできる()
-    {
-        $user = $this->User作成();
-        $this->browse(function (Browser $browser) use ($user) {
-            $this->Todoの作成ができる();
-            $browser->clickLink('もっと見る')
-                    ->assertSee('Todotest');
         });
     }
 
