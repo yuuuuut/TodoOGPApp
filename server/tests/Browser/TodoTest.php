@@ -2,16 +2,17 @@
 
 namespace Tests\Browser;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Socialite;
 use Mockery;
 use App\Models\User;
+use App\Models\Todo;
 
 class TodoTest extends DuskTestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     /** @test */
     public function ホーム画面にTodoと表示されている()
@@ -34,11 +35,25 @@ class TodoTest extends DuskTestCase
     /** @test */
     public function ログインしてる場合のリンク表示()
     {
-        $this->browse(function (Browser $browser) {
-            $user = $this->User作成();
+        $user = $this->User作成();
+        $this->browse(function (Browser $browser) use ($user) {
             $browser->loginAs($user)->visit('/')
                     ->assertSeeLink('Home')
                     ->assertSeeLink('マイページ');
+        });
+    }
+
+    /** @test */
+    public function Todoの作成ができる()
+    {
+        $user = $this->User作成();
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)->visit("users/$user->nickname")
+                    ->type('content', 'Todotest')
+                    ->type('due_date', '0401-20-30')
+                    ->click('.todo__createButton')
+                    ->assertSee('Todotest');
+            $this->assertEquals(1, Todo::count());
         });
     }
 
@@ -63,7 +78,8 @@ class TodoTest extends DuskTestCase
         $this->get(route('callback'))
             ->assertStatus(302)
             ->assertRedirect('/');
-        $user = User::where('name', 'testuser')->first();
+        $user = User::where('nickname', 'test')->first();
+        //dd($user);
         return $user;
     }
 }

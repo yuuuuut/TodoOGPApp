@@ -11,7 +11,7 @@
   {{ Form::hidden('uid', $user->uid) }}
   {{ Form::textarea('content') }}
   {{ Form::date('due_date') }}
-  {{ Form::Submit('完了') }}
+  {{ Form::Submit('完了', ['class'=>'todo__createButton']) }}
 {{ Form::close() }}
 
 @if($todos->count())
