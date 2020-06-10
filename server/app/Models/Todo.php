@@ -4,10 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
 
 class Todo extends Model
 {
     protected $guarded = ['id'];
+
+    public static function checkOverDueDate($due_date)
+    {
+        $dt = Carbon::now();
+        $today = $dt->format('Y-m-d');
+        return ($due_date <= $today) ? true : false;
+    }
 
     public function generateOgp($id)
     {

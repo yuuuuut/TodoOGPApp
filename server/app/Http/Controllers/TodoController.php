@@ -23,7 +23,6 @@ class TodoController extends Controller
         $todo->content  = $request->input('content');
         $todo->due_date = $request->input('due_date');
         $todo->save();
-
         return redirect("users/$user->nickname");
     }
 
