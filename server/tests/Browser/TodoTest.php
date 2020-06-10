@@ -43,6 +43,20 @@ class TodoTest extends DuskTestCase
         });
     }
 
+    /** @test */
+    public function 期日内の場合期日内と表示される()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = $this->User作成();
+            $browser->loginAs($user)->visit('/')
+                    ->clickLink('マイページ')
+                    ->type('content', 'Todotest')
+                    ->type('due_date', '0401-20-30')
+                    ->click('.todo__createButton')
+                    ->assertSee('Todotest');
+        });
+    }
+
     public function User作成()
     {
         $provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
