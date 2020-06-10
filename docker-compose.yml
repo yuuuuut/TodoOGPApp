@@ -31,6 +31,20 @@ services:
     - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
     - 3305:3306
+  
+  db-testing:
+    image: mysql:8.0
+    volumes:
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    tmpfs:
+      - /var/lib/mysql
+      - /var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_todo
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3304:3306
 
   selenium:
     image: selenium/standalone-chrome

@@ -17,7 +17,7 @@ class TodoController extends Controller
 
     public function store(CreateTodo $request)
     {
-        $user = User::where('uid', $request->input('uid'))->firstOrFail();
+        $user = User::where('uid', Auth::user()->uid/*$request->input('uid')*/)->firstOrFail();
         $todo = new Todo();
         $todo->user_id  = Auth::id();
         $todo->content  = $request->input('content');

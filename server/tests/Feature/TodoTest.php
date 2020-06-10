@@ -20,7 +20,6 @@ class TodoTest extends TestCase
     {
         $user = $this->User作成();
         $data = [
-            'uid'      => $user->uid,
             'user_id'  => $user->id,
             'content'  => 'test',
             'due_date' => '2030-04-01',
@@ -31,25 +30,28 @@ class TodoTest extends TestCase
         $response->assertStatus(302)
             ->assertRedirect("/users/$user->nickname");
         $this->assertEquals(1, Todo::count());
+        $todo = Todo::where('user_id', $user->id)->first();
+        return $todo;
     }
 
     /** @test */
     public function Todoの個別ページにアクセスできる()
     {
-        $this->Todoの作成ができる();
-        $response = $this->get("/todos/1");
+        $todo = $this->Todoの作成ができる();
+        $response = $this->get("/todos/$todo->id");
         $response->assertStatus(200); 
     }
 
     /** @test */
     public function OGP画像ページにアクセスできる()
     {
-        $this->Todoの作成ができる();
-        $response = $this->get("/todos/1/ogp.png");
+        $todo = $this->Todoの作成ができる();
+        $response = $this->get("/todos/$todo->id/ogp.png");
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'image/png');
     }
 
+    /** @test */
     public function User作成()
     {
         $provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
@@ -72,6 +74,7 @@ class TodoTest extends TestCase
             ->assertStatus(302)
             ->assertRedirect('/');
         $user = User::where('name', 'testuser')->first();
+        //dd($user);
         return $user;
     }
 }

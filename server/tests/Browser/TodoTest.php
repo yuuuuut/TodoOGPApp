@@ -5,8 +5,6 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
-use Socialite;
-use Mockery;
 use App\Models\User;
 use App\Models\Todo;
 
@@ -32,18 +30,21 @@ class TodoTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    /*
     public function ログインしてる場合のリンク表示()
     {
         $this->browse(function (Browser $browser) {
-            $user = $this->User作成();
-            $browser->loginAs($user)->visit('/')
+            $browser->visit('/')
+                    ->clickLink('Login')
+                    ->type('#username_or_email', env('USERNAME'))
+                    ->type('#password', env('PASSWORD'))
+                    ->click('#allow')
+                    ->visit(route('callback'))
                     ->assertSeeLink('Home')
                     ->assertSeeLink('マイページ');
         });
     }
 
-    /** @test */
     public function 期日内の場合期日内と表示される()
     {
         $this->browse(function (Browser $browser) {
@@ -56,29 +57,5 @@ class TodoTest extends DuskTestCase
                     ->assertSee('Todotest');
         });
     }
-
-    public function User作成()
-    {
-        $provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
-
-        $Muser = Mockery::mock('Laravel\Socialite\One\User');
-        $Muser->shouldReceive('getId')
-            ->andReturn('1111111')
-            ->shouldReceive('getNickname')
-            ->andReturn('test')
-            ->shouldReceive('getName')
-            ->andReturn('testuser')
-            ->shouldReceive('getAvatar')
-            ->andReturn('https://api.adorable.io/avatars/285/abott@adorable.png');
-
-        $provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
-        $provider->shouldReceive('user')->andReturn($Muser);
-        Socialite::shouldReceive('driver')->with('twitter')->andReturn($provider);
-
-        $this->get(route('callback'))
-            ->assertStatus(302)
-            ->assertRedirect('/');
-        $user = User::where('nickname', 'test')->first();
-        return $user;
-    }
+    */
 }
