@@ -5,10 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
+use App\Models\User;
 
 class Todo extends Model
 {
     protected $guarded = ['id'];
+
+    public function todos()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public static function checkOverDueDate($due_date)
     {

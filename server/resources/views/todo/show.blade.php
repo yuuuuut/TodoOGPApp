@@ -13,7 +13,7 @@
     期限外です
     {{ $todo->content }}
   @else
-    期限ないです
+    期限内です
     {{ $todo->due_date }}
   @endif
 @endsection

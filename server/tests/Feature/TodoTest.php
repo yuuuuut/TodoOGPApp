@@ -28,7 +28,8 @@ class TodoTest extends TestCase
         $this->assertDatabaseMissing('todos', $data);
         $response = $this->post(route('todos.store'), $data);
         $response->assertStatus(302)
-            ->assertRedirect("/users/$user->nickname");
+            ->assertRedirect("/users/$user->nickname")
+            ->assertSee('test');
         $this->assertEquals(1, Todo::count());
         $todo = Todo::where('user_id', $user->id)->first();
         return $todo;
@@ -40,6 +41,26 @@ class TodoTest extends TestCase
         $todo = $this->Todoの作成ができる();
         $response = $this->get("/todos/$todo->id");
         $response->assertStatus(200); 
+    }
+
+    /** @test */
+    public function Due_dateが期限内だったら期限内と表示される()
+    {
+        $user = $this->User作成();
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id]);
+        $response = $this->get("/todos/$todo->id");
+        $response->assertStatus(200)
+            ->assertSee('期限内です');
+    }
+
+    /** @test */
+    public function Due_dateが期限外だったら期限外と表示される()
+    {
+        $user = $this->User作成();
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => '2020-01-01']);
+        $response = $this->get("/todos/$todo->id");
+        $response->assertStatus(200)
+            ->assertSee('期限外です');
     }
 
     /** @test */
