@@ -7,7 +7,7 @@
   {{ $message }}
 @endforeach
 
-{{ Form::open(['url' => url('todos')]) }}
+{{ Form::open(['route' => 'todos.store']) }}
   {{ Form::hidden('uid', $user->uid) }}
   {{ Form::textarea('content') }}
   {{ Form::date('due_date') }}

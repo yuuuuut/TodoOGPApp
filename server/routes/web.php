@@ -11,9 +11,11 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('users', 'UserController')->only(['show']);
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('todos', 'TodoController')->only(['show','store']);
+    //Route::resource('todos', 'TodoController')->only(['show','store']);
 });
+Route::get('todos/{todo}', 'TodoController@show')->name('todos.show');
+Route::post('todos', 'TodoController@store')->name('todos.store');
+Route::post('todos/{id}/', 'TodoController@update')->name('todos.update');
 Route::get('todos/{id}/ogp.png', 'TodoController@ogp');
-Route::post('/todos/{todo}/', 'TodoController@update')->name('todos.update');
 
 Route::get('/home', 'HomeController@index')->name('home');

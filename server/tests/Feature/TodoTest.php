@@ -52,7 +52,7 @@ class TodoTest extends TestCase
     public function Due_dateが期限内だったら期限内と表示される()
     {
         $user = $this->User作成();
-        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id]);
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => '2030-01-01']);
         $response = $this->get("/todos/$todo->id");
         $response->assertStatus(200)
             ->assertSee('期限内です');
@@ -72,7 +72,7 @@ class TodoTest extends TestCase
     public function StatusのUpdateができる()
     {
         $user = $this->User作成();
-        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id]);
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => '2030-01-01']);
         $this->assertDatabaseHas('todos', [
             'content'  => "notOverDays",
             'due_date' => "2030-01-01",

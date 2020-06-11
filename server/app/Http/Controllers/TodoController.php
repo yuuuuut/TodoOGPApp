@@ -26,11 +26,9 @@ class TodoController extends Controller
         return redirect("users/$user->nickname");
     }
 
-    public function update(Request $request, Todo $todo)
+    public function update(Request $request, int $id)
     {
-        $todo = Todo::find($todo->id);
-        $todo->content = $todo->content;
-        $todo->due_date = $todo->due_date;
+        $todo = Todo::findOrFail($id);
         $todo->status = $request->status;
         $todo->save();
         return redirect('/');

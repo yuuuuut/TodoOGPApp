@@ -16,7 +16,7 @@
     期限内です
     {{ $todo->due_date }}
     @if ($todo->status == '0')
-      <form action="{{ route('todos.update', ['todo' => $todo->id]) }}" method="post">
+      <form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
         @csrf
         <input type="hidden" name="status" value="1">
         <button type="submit">投稿</button>
