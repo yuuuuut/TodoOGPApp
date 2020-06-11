@@ -14,5 +14,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('todos', 'TodoController')->only(['show','store']);
 });
 Route::get('todos/{id}/ogp.png', 'TodoController@ogp');
+Route::post('/todos/{todo}/', 'TodoController@update')->name('todos.update');
 
 Route::get('/home', 'HomeController@index')->name('home');

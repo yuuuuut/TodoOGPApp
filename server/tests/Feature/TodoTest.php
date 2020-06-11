@@ -31,6 +31,11 @@ class TodoTest extends TestCase
             ->assertRedirect("/users/$user->nickname")
             ->assertSee('test');
         $this->assertEquals(1, Todo::count());
+        $this->assertDatabaseHas('todos', [
+            'content'  => 'test',
+            'due_date' => '2030-04-01',
+            'status' => '0',
+        ]);
         $todo = Todo::where('user_id', $user->id)->first();
         return $todo;
     }
@@ -64,6 +69,31 @@ class TodoTest extends TestCase
     }
 
     /** @test */
+    public function StatusのUpdateができる()
+    {
+        $user = $this->User作成();
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id]);
+        $this->assertDatabaseHas('todos', [
+            'content'  => "notOverDays",
+            'due_date' => "2030-01-01",
+            'status'   => '0',
+        ]);
+        $response = $this->get("/todos/$todo->id");
+        $response->assertStatus(200)
+            ->assertSee('期限内です');
+        $data = [
+            'status' => '1',
+        ];
+        $response = $this->post("/todos/$todo->id", $data);
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('todos', [
+            'content'  => "notOverDays",
+            'due_date' => "2030-01-01",
+            'status'   => '1',
+        ]);
+    }
+
+    /** @test */
     public function OGP画像ページにアクセスできる()
     {
         $todo = $this->Todoの作成ができる();
@@ -72,7 +102,6 @@ class TodoTest extends TestCase
         $response->assertHeader('Content-Type', 'image/png');
     }
 
-    /** @test */
     public function User作成()
     {
         $provider = Mockery::mock('Laravel\Socialite\Contracts\Provider');
