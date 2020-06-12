@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Carbon\Carbon;
 use Socialite;
 use Mockery;
 use App\Models\User;
@@ -34,7 +35,7 @@ class TodoTest extends TestCase
         $this->assertDatabaseHas('todos', [
             'content'  => 'test',
             'due_date' => '2030-04-01',
-            'status' => '0',
+            'status'   => '0',
         ]);
         $todo = Todo::where('user_id', $user->id)->first();
         return $todo;
@@ -97,13 +98,25 @@ class TodoTest extends TestCase
     public function 未完了のTodoの絞り込みができる()
     {
         $user = $this->User作成();
-        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'status' => '0']);
-        $state_one_todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'content' => 'testPath', 'status' => '1']);
+        factory(Todo::class, 'default')->create(['user_id' => $user->id, 'status' => '0']);
+        factory(Todo::class, 'default')->create(['user_id' => $user->id, 'content' => 'testPath', 'status' => '1']);
         $this->assertEquals(2, Todo::count());
         $response = $this->get("/users/$user->nickname?incomplete=1");
         $response->assertStatus(200)
             ->assertSee('notOverDays');
-            //->assertSee('testPath');
+    }
+
+    /** @test */
+    public function 期日が明日までのTodoが完了されていなかったら数を表示する()
+    {
+        $user = $this->User作成();
+        $tomorrow = Carbon::now()->addDay()->format('Y-m-d');
+        factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => $tomorrow, 'status' => '0']);
+        factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => $tomorrow, 'status' => '1']);
+        $this->assertEquals(2, Todo::count());
+        $response = $this->get("/users/$user->nickname");
+        $response->assertStatus(200)
+            ->assertSee('期日が明日までのTodoが1件あります。');
     }
 
     /** @test */

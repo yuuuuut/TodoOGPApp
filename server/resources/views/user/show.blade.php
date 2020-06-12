@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+<?php 
+$count = \App\Models\Todo::checkLimitDayOneTodo();
+?>
+
+@if ($count)
+  期日が明日までのTodoが{{ $count }}件あります。
+@endif
+
 <h1>{{ $user->nickname }}</h1>
 
 @foreach($errors->all() as $message)

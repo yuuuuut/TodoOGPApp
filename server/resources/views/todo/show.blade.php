@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-<?php $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date) ?>
+<?php 
+$overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
+?>
 
 @if($overDay)
     @section('title', "Todo!!")

@@ -18,9 +18,17 @@ class Todo extends Model
 
     public static function checkOverDueDate($due_date)
     {
-        $dt = Carbon::now();
-        $today = $dt->format('Y-m-d');
+        $today = Carbon::now()->format('Y-m-d');
         return ($due_date <= $today) ? true : false;
+    }
+
+    public static function checkLimitDayOneTodo()
+    {
+        $tomorrow = Carbon::now()->addDay()->format('Y-m-d');
+        $todo_count = Todo::where('due_date', $tomorrow)
+                    ->where('status', '0')
+                    ->count();
+        return $todo_count;
     }
 
     public function generateOgp($id)
