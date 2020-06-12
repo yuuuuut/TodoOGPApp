@@ -94,6 +94,19 @@ class TodoTest extends TestCase
     }
 
     /** @test */
+    public function 未完了のTodoの絞り込みができる()
+    {
+        $user = $this->User作成();
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'status' => '0']);
+        $state_one_todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'content' => 'testPath', 'status' => '1']);
+        $this->assertEquals(2, Todo::count());
+        $response = $this->get("/users/$user->nickname?incomplete=1");
+        $response->assertStatus(200)
+            ->assertSee('notOverDays');
+            //->assertSee('testPath');
+    }
+
+    /** @test */
     public function OGP画像ページにアクセスできる()
     {
         $todo = $this->Todoの作成ができる();

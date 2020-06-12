@@ -14,12 +14,16 @@
   {{ Form::Submit('完了', ['class'=>'todo__createButton']) }}
 {{ Form::close() }}
 
+<a href="{{ url("users/$user->nickname?incomplete=1") }}">完了していないTodo</a><br>
+
 @if($todos->count())
   @foreach($todos as $todo)
     {{ $todo->id }}
     {{ $todo->content }}
     {{ $todo->due_date }}
+    {{ $todo->status }}
     <a href="/todos/{{ $todo->id }}">もっと見る</a>
+    <br>
   @endforeach
 @else
   Todoはありません。
