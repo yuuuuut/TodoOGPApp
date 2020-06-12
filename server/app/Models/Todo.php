@@ -16,6 +16,13 @@ class Todo extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function scopeIncomplete($query, $user)
+    {
+        return $query->where('user_id', $user->id)
+                    ->where('status', '0')
+                    ->orderBy('due_date', 'asc');
+    }
+
     public static function checkOverDueDate($due_date)
     {
         $today = Carbon::now()->format('Y-m-d');

@@ -13,9 +13,7 @@ class UserController extends Controller
         $user  = User::where('nickname', $nickname)->firstOrFail();
         $query = Todo::where('user_id', $user->id);
         if ($request->input('incomplete')) {
-            $query->where('status', '0')
-                    ->orderBy('due_date', 'asc')
-                    ->get();
+            $query = Todo::incomplete($user);
         }
         $todos = $query->orderBy('id', 'desc')->get();
         return view('user.show', compact('user', 'todos'));
