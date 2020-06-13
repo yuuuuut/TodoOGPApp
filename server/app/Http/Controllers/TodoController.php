@@ -17,7 +17,7 @@ class TodoController extends Controller
 
     public function store(CreateTodo $request)
     {
-        $user = User::where('uid', Auth::user()->uid/*$request->input('uid')*/)->firstOrFail();
+        $user = User::where('uid', Auth::user()->uid)->firstOrFail();
         $todo = new Todo();
         $todo->user_id  = Auth::id();
         $todo->content  = $request->input('content');
@@ -28,10 +28,11 @@ class TodoController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $user = User::where('uid', Auth::user()->uid)->firstOrFail();
         $todo = Todo::findOrFail($id);
         $todo->status = $request->status;
         $todo->save();
-        return redirect('/');
+        return redirect("users/$user->nickname");
     }
 
     public function ogp($id)

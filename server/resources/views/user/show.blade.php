@@ -38,6 +38,13 @@ list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
     {{ $todo->content }}
     {{ $todo->due_date }}
     {{ $todo->status }}
+    @if ($todo->status == '0')
+    <form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
+      @csrf
+      <input type="hidden" name="status" value="1">
+      <button type="submit">投稿</button>
+    </form>
+    @endif
     <a href="/todos/{{ $todo->id }}">もっと見る</a>
     <br>
   @endforeach
