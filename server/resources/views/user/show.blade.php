@@ -2,11 +2,19 @@
 
 @section('content')
 <?php 
-$count = \App\Models\Todo::checkLimitDayOneTodo();
+list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
 ?>
 
-@if ($count)
-  期日が明日までのTodoが{{ $count }}件あります。
+@if ($todo_count)
+  期日が明日までのTodoが{{ $todo_count }}件あります。<br>
+  @foreach($todo_get as $todo)
+    {{ $todo->id }}
+    {{ $todo->content }}
+    {{ $todo->due_date }}
+    {{ $todo->status }}
+    <a href="/todos/{{ $todo->id }}">もっと見る</a>
+    <br>
+  @endforeach
 @endif
 
 <h1>{{ $user->nickname }}</h1>

@@ -29,13 +29,14 @@ class Todo extends Model
         return ($due_date <= $today) ? true : false;
     }
 
-    public static function checkLimitDayOneTodo()
+    public static function checkLimitDayTomorrowTodo()
     {
         $tomorrow = Carbon::now()->addDay()->format('Y-m-d');
-        $todo_count = Todo::where('due_date', $tomorrow)
-                    ->where('status', '0')
-                    ->count();
-        return $todo_count;
+        $todo = Todo::where('due_date', $tomorrow)
+                    ->where('status', '0');
+        $todo_count = $todo->count();
+        $todo_get   = $todo->get();
+        return [$todo_count, $todo_get];
     }
 
     public function generateOgp($id)
