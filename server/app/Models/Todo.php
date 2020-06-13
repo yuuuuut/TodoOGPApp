@@ -40,31 +40,42 @@ class Todo extends Model
 
     public function generateOgp($id)
     {
-        $content = $this->getWordwrapedBody();
+        //画像の生成
         $image = Image::make(resource_path('images/ogp.png'));
-        $image->text($content, 300, 90, function($font){
+        list($gakkari_men, $gakkari_woman) = $this->gakkariImageGene();
+        //Content部分
+        $content = $this->content;
+        $image->text($content, 300, 90, function($font) {
             $font->file(resource_path('fonts/MPLUS1p-Regular.ttf'));
-            $font->size(20);
+            $font->size(27);
+            $font->color('#dc143c');
+            $font->align('center');
+            $font->valign('middle');
+        });
+        //Template部分
+        $template = "を期日までに終わらせることが\nできませんでした...";
+        $image->text($template, 300, 175, function($font) {
+            $font->file(resource_path('fonts/MPLUS1p-Regular.ttf'));
+            $font->size(25);
             $font->color('#272A2C');
             $font->align('center');
-            $font->valign('top');
+            $font->valign('middle');
         });
+        //画像のinsert
+        $image->insert($gakkari_men, 'bottom-left', 5, 1);
+        $image->insert($gakkari_woman, 'bottom-right', 5, 1);
         $image->resize(600, 355);
         $save_path = storage_path('ogp/' . $id . '.jpg');
         $image->save($save_path);
         return $image;
     }
 
-    private function getWordwrapedBody()
+    private function gakkariImageGene()
     {
-        $lines = explode("\n", $this->content);
-        $result = [];
-        foreach ($lines as $line) {
-            $length = mb_strlen($line);
-            for ($start = 0; $start < $length; $start += 20) {
-                $result[] = mb_substr($line, $start, 20);
-            }
-        }
-        return join("\n", $result);
+        $gakkari_man   = Image::make(resource_path('images/gakkari_tameiki_man.png'));
+        $gakkari_woman = Image::make(resource_path('images/gakkari_tameiki_woman.png'));
+        $gakkari_man->resize(180, 180);
+        $gakkari_woman->flip()->resize(180, 180);
+        return [$gakkari_man, $gakkari_woman];
     }
 }

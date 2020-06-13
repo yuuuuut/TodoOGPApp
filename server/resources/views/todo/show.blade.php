@@ -6,7 +6,7 @@ $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
 
 @if($overDay)
     @section('title', "Todo!!")
-    @section('description', "次はきちんと期日までに終わらせましょう...")
+    @section('description', "次はきちんと期日までに終わらせましょう!!")
     @section('ogp', url("todos/{$todo->id}/ogp.png"))
 @endif
 
@@ -14,6 +14,7 @@ $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
   @if($overDay)
     期限外です
     {{ $todo->content }}
+    <img src="{{ url("todos/{$todo->id}/ogp.png") }}">
   @else
     期限内です
     {{ $todo->due_date }}
