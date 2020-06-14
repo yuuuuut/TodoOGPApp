@@ -34,6 +34,9 @@ list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
 
 @if($todos->count())
   @foreach($todos as $todo)
+  <?php 
+    $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
+  ?>
     {{ $todo->id }}
     {{ $todo->content }}
     {{ $todo->due_date }}
@@ -45,7 +48,9 @@ list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
       <button type="submit">投稿</button>
     </form>
     @endif
-    <a href="/todos/{{ $todo->id }}">もっと見る</a>
+    @if ($todo->status == '0' && $overDay)
+      <a href="/todos/{{ $todo->id }}">もっと見る</a>
+    @endif
     <br>
   @endforeach
 @else
