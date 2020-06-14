@@ -12,6 +12,7 @@ class TodoController extends Controller
 {
     public function show(Todo $todo)
     {
+        $this->checkAbort($todo);
         return view('todo.show', compact('todo'));
     }
 
@@ -41,5 +42,12 @@ class TodoController extends Controller
         $image = $todo->generateOgp($id);
         return response($image, 200)
             ->header('Content-Type', 'image/png');
+    }
+
+    private function checkAbort($todo)
+    {
+        if ($todo->status == '1') {
+            abort(403);
+        }
     }
 }
