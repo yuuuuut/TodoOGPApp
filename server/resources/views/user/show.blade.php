@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- 変数 -->
 <?php 
 $tomorrow = new DateTime('+1 day');
 $min_date = $tomorrow->format('Y-m-d');
 ?>
-
+<!-- Main -->
+<div class="main mt-4">
     <div class="d-flex justify-content-center">
         @foreach($errors->all() as $message)
             {{ $message }}<br>
@@ -27,37 +29,25 @@ $min_date = $tomorrow->format('Y-m-d');
                 </div>
                     <input type="date" name="due_date" style="width: 250px;" min="{{ $min_date }}">
             </div>
-            <button type="submit" class="btn btn-outline-success" style="width: 304px;">完了</button>
+            <button type="submit" class="btn btn-outline-success" style="width: 304px;">作成</button>
         </form>
     </div>
+</div>
 
-<a href="{{ url("users/$user->nickname?incomplete=1") }}">完了していないTodo</a><br>
+<div class="d-flex justify-content-between mt-4 mb-2">
+    <a href="{{ url("users/$user->nickname?incomplete=1") }}" class="btn btn-primary btn-sm">完了していないTodoのみ表示</a>
+    <a href="{{ url("users/$user->nickname?incomplete=1") }}" class="btn btn-danger btn-sm">完了済のTodo一括削除</a>
+</div>
 
 @if($todos->count())
-@foreach($todos as $todo)
-<?php 
-$overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
-?>
-{{ $todo->id }}
-{{ $todo->content }}
-{{ $todo->due_date }}
-{{ $todo->status }}
-@if ($todo->status == '0' && !$overDay)
-<form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
-@csrf
-<input type="hidden" name="status" value="1">
-<button type="submit">投稿</button>
-</form>
-@elseif ($todo->status == '0' && $overDay)
-<button type="submit">期日外</button>
-@endif
-@if ($todo->status == '0' && $overDay)
-<a href="/todos/{{ $todo->id }}">もっと見る</a>
-@endif
-<br>
-@endforeach
+    <table class="table table-dark">
+        <tr><th>やる事</th><th>期限</th><th>状態</th></tr>
+            @foreach($todos as $todo)
+                @component('components.todo_table', ['todo' => $todo])@endcomponent
+            @endforeach
+    </table>
 @else
-Todoはありません。
+    Todoはありません。
 @endif
 
 @endsection
