@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- php -->
-@php
-$tomorrow = new DateTime('+1 day');
-$min_date = $tomorrow->format('Y-m-d');
-@endphp
 <!-- Main -->
 <div class="main mt-4">
     <div class="d-flex justify-content-center">
@@ -27,7 +22,7 @@ $min_date = $tomorrow->format('Y-m-d');
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">期限</span>
                 </div>
-                    <input type="date" name="due_date" style="width: 250px;" min="{{ $min_date }}">
+                    <input type="date" name="due_date" style="width: 250px;" min="{{ $min_date }}" max="2100-12-31">
             </div>
             <button type="submit" class="btn btn-outline-success" style="width: 304px;">作成</button>
         </form>
