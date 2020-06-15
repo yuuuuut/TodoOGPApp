@@ -18,6 +18,8 @@
         @endif
         <meta charset="utf-8">
         <title>{{ config('app.name') }}</title>
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        @yield('styles')
     </head>
 <body>
     @guest
@@ -34,5 +36,8 @@
         </form>
     @endguest
     @yield('content')
+
+    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>
