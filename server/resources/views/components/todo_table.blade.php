@@ -1,8 +1,8 @@
-<!-- 変数 -->
-<?php 
+<!-- php -->
+@php
 $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
 $danger_todo = $todo->status == '0' && $overDay;
-?>
+@endphp
 <!-- Main -->
 @if ($danger_todo)
     <tr><td>{{ $todo->content }}

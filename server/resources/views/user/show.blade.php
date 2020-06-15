@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- 変数 -->
-<?php 
+<!-- php -->
+@php
 $tomorrow = new DateTime('+1 day');
 $min_date = $tomorrow->format('Y-m-d');
-?>
+@endphp
 <!-- Main -->
 <div class="main mt-4">
     <div class="d-flex justify-content-center">

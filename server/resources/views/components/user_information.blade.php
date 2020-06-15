@@ -1,8 +1,8 @@
 @if (Auth::check())
-<!-- 変数 -->
-<?php 
+<!-- php -->
+@php
 list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
-?>
+@endphp
 <!-- Main -->
 <div class="main">
     <div class="d-flex justify-content-center mt-5">
