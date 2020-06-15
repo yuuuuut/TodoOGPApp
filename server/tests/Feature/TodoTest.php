@@ -116,7 +116,7 @@ class TodoTest extends TestCase
         $this->assertEquals(2, Todo::count());
         $response = $this->get("/");
         $response->assertStatus(200)
-            ->assertSee('期日が明日までのTodoが1件あります。');
+            ->assertSee('期日が明日までのTodoが1件あります');
     }
 
     /** @test */
