@@ -2,24 +2,9 @@
 
 @section('content')
 <?php 
-list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
 $tomorrow = new DateTime('+1 day');
 $min_date = $tomorrow->format('Y-m-d');
 ?>
-
-@if ($todo_count)
-    期日が明日までのTodoが{{ $todo_count }}件あります。<br>
-    @foreach($todo_get as $todo)
-        {{ $todo->id }}
-        {{ $todo->content }}
-        {{ $todo->due_date }}
-        {{ $todo->status }}
-        <a href="/todos/{{ $todo->id }}">もっと見る</a>
-        <br>
-    @endforeach
-@endif
-
-<h1>{{ $user->nickname }}</h1>
 
     <div class="d-flex justify-content-center">
         @foreach($errors->all() as $message)

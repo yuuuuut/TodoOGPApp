@@ -114,7 +114,7 @@ class TodoTest extends TestCase
         factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => $tomorrow, 'status' => '0']);
         factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => $tomorrow, 'status' => '1']);
         $this->assertEquals(2, Todo::count());
-        $response = $this->get("/users/$user->nickname");
+        $response = $this->get("/");
         $response->assertStatus(200)
             ->assertSee('期日が明日までのTodoが1件あります。');
     }

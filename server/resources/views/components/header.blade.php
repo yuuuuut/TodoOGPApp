@@ -10,7 +10,7 @@
                     <a class="nav-link" href="/">トップ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/{{ Auth::user()->nickname }}">マイページ</a>
+                    <a class="nav-link" href="/users/{{ Auth::user()->nickname }}">Todo一覧・作成</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}"

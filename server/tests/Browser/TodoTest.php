@@ -26,7 +26,7 @@ class TodoTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSeeLink('Login');
+                    ->assertSeeLink('ログイン');
         });
     }
 
