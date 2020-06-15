@@ -39,6 +39,11 @@ class Todo extends Model
         return [$todo_count, $todo_get];
     }
 
+    public static function dangerTodoBool($status, $over_day)
+    {
+        return ($status == '0' && $over_day) ? true : false;
+    }
+
     public function generateOgp($id)
     {
         //画像の生成

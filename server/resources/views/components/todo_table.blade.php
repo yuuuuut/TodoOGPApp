@@ -1,7 +1,7 @@
 <!-- php -->
 @php
-$overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
-$danger_todo = $todo->status == '0' && $overDay;
+$over_day    = App\Models\Todo::checkOverDueDate($todo->due_date);
+$danger_todo = App\Models\Todo::dangerTodoBool($todo->status, $over_day);
 @endphp
 <!-- Main -->
 @if ($danger_todo)
@@ -12,7 +12,7 @@ $danger_todo = $todo->status == '0' && $overDay;
 @endif
 <td>{{ $todo->due_date }}</td>
 
-@if ($todo->status == '0' && !$overDay)
+@if ($todo->status == '0' && !$over_day)
     <form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
         @csrf
         <input type="hidden" name="status" value="1">
