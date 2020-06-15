@@ -22,19 +22,9 @@
         @yield('styles')
     </head>
 <body>
-    @guest
-        isGest
-    @else
-        <a class="dropdown-item" href="{{ route('logout') }}"
-            onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
+    <!-- Header -->
+    @component('components.header')@endcomponent
 
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-    @endguest
     @yield('content')
 
     <script src="{{ asset('js/app.js') }}"></script>
