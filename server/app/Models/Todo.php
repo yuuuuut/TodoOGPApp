@@ -29,10 +29,11 @@ class Todo extends Model
         return ($due_date <= $today) ? true : false;
     }
 
-    public static function checkLimitDayTomorrowTodo()
+    public static function checkLimitDayTomorrowTodo($user)
     {
         $tomorrow = Carbon::now()->addDay()->format('Y-m-d');
-        $todo = Todo::where('due_date', $tomorrow)
+        $todo = Todo::where('user_id', $user->id)
+                    ->where('due_date', $tomorrow)
                     ->where('status', '0');
         $todo_count = $todo->count();
         $todo_get   = $todo->get();

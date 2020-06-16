@@ -1,7 +1,7 @@
 @if (Auth::check())
 <!-- php -->
 @php
-list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
+list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo(Auth::user());
 @endphp
 <!-- Main -->
 <div class="main">
@@ -10,7 +10,7 @@ list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
     </div>
     <div class="d-flex justify-content-center">
         <div class="flex-column">
-            <h2 class="mt-3">{{ Auth::user()->name }}さんのマイページ</h2>
+            <h2 class="mt-3">{{ Auth::user()->name }}<br>さんのマイページ</h2>
             <div class="d-flex justify-content-center">
                 <a class="btn btn-primary btn-lg mt-2 mb-2" href="/users/{{ Auth::user()->nickname }}">Todo一覧・作成</a>
             </div>
@@ -32,6 +32,10 @@ list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo();
                         @endforeach
                 </table>
             @endif
+        @else
+            <div class="d-flex justify-content-center"> 
+                <h4 class="mt-4">お知らせはありません</h4>
+            </div>
         @endif
     </div>
 </div>
