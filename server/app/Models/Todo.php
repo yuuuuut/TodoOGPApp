@@ -16,6 +16,12 @@ class Todo extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function scopeFinishTodo($query, $user)
+    {
+        return $query->where('user_id', $user->id)
+                    ->where('status', '1');
+    }
+
     public function scopeIncomplete($query, $user)
     {
         return $query->where('user_id', $user->id)

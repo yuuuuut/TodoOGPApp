@@ -31,10 +31,14 @@
 
 <div class="d-flex justify-content-around mt-4 mb-2">
     <a href="{{ url("users/$user->nickname?incomplete=1") }}" class="btn btn-primary">完了していないTodoのみ表示</a>
-    <form action="{{ route('todos.allDelete') }}" method="post">
-        @csrf
-        <input type="submit" class="btn btn-danger" value="完了済のTodoを一括削除" onclick='return confirm("削除します。よろしいですか?");'>
-    </form>
+    @if ($completed_todo)
+        <form action="{{ route('todos.allDelete') }}" method="post">
+            @csrf
+            <input type="submit" class="btn btn-danger" value="完了済のTodoを一括削除" onclick='return confirm("削除します。よろしいですか?");'>
+        </form>
+    @else
+        <button type="button" class="btn btn-danger" disabled>完了済のTodoを一括削除</button>
+    @endif
 </div>
 
 @if($todos->count())
