@@ -9,13 +9,18 @@ use App\Models\User;
 
 class Todo extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'status'];
 
+    /**
+     * relation
+     */
     public function todos()
     {
         return $this->belongsTo(User::class);
     }
-
+    /**
+     * scope
+     */
     public function scopeFinishTodo($query, $user)
     {
         return $query->where('user_id', $user->id)
@@ -38,9 +43,8 @@ class Todo extends Model
     public static function checkLimitDayTomorrowTodo($user)
     {
         $tomorrow = Carbon::now()->addDay()->format('Y-m-d');
-        $todo = Todo::where('user_id', $user->id)
-                    ->where('due_date', $tomorrow)
-                    ->where('status', '0');
+        $todo = Todo::incomplete($user)
+                    ->where('due_date', $tomorrow);
         $todo_count = $todo->count();
         $todo_get   = $todo->get();
         return [$todo_count, $todo_get];
