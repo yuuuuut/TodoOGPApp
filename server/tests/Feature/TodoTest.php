@@ -120,6 +120,18 @@ class TodoTest extends TestCase
     }
 
     /** @test */
+    public function 完了済のTodoを一括削除できる()
+    {
+        $user = $this->User作成();
+        factory(Todo::class, 'default')->create(['user_id' => $user->id, 'status' => '1']);
+        factory(Todo::class, 'default')->create(['user_id' => $user->id, 'status' => '0']);
+        $this->assertEquals(2, Todo::count());
+        $response = $this->post(route('todos.allDelete'));
+        $response->assertStatus(302);
+        $this->assertEquals(1, Todo::count());
+    }
+
+    /** @test */
     public function OGP画像ページにアクセスできる()
     {
         $todo = $this->Todoの作成ができる();

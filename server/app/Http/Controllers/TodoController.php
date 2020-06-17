@@ -36,6 +36,15 @@ class TodoController extends Controller
         return redirect("users/$user->nickname");
     }
 
+    public function allDelete()
+    {
+        $user = Auth::user();
+        Todo::where('user_id', $user->id)
+            ->where('status', '1')
+            ->delete();
+        return redirect("users/$user->nickname");
+    }
+
     public function ogp($id)
     {
         $todo  = Todo::findOrFail($id);
