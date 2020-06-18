@@ -32,10 +32,23 @@
 <div class="d-flex justify-content-around mt-4 mb-2">
     <a href="{{ url("users/$user->nickname?incomplete=1") }}" class="btn btn-primary">未完了のTodoのみ表示</a>
     @if ($completed_todo)
-        <form action="{{ route('todos.allDelete') }}" method="post">
-            @csrf
-            <input type="submit" class="btn btn-danger" value="完了済のTodoを一括削除" onclick='return confirm("削除します。よろしいですか?");'>
-        </form>
+    <!-- Modal -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">完了済のTodoを一括削除</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">削除しますか?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
+                    <form action="{{ route('todos.allDelete') }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">削除</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal end -->
     @else
         <button type="button" class="btn btn-danger" disabled>完了済のTodoを一括削除</button>
     @endif

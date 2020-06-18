@@ -22,15 +22,15 @@ $danger_todo = App\Models\Todo::dangerTodoBool($todo->status, $over_day);
                     <form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
                         @csrf
                         <input type="hidden" name="status" value="1">
-                        <button type="submit" class="btn btn-primary">完了済にする</button>
+                        <button type="submit" class="btn btn-success">完了済にする</button>
                     </form>
                 </div>
             </div>
         </div>
     <!-- Modal end -->
     @elseif ($danger_todo)
-        <td><button type="submit" class="btn btn-danger">期日外</button></td>
+        <td><button type="submit" class="btn btn-danger">期限外</button></td>
     @else
-        <td><button type="submit" class="btn btn-primary">完了</button></td>
+        <td><button type="submit" class="btn btn-primary">完了済</button></td>
     @endif
 </div>
