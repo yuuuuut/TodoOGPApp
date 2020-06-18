@@ -14,11 +14,20 @@ $danger_todo = App\Models\Todo::dangerTodoBool($todo->status, $over_day);
     <td>{{ $todo->due_date }}</td>
 
     @if ($todo->status == '0' && !$over_day)
-        <form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
-            @csrf
-            <input type="hidden" name="status" value="1">
-            <td><button type="submit" class="btn btn-warning">未完了</button></td>
-        </form>
+    <!-- Modal -->
+        <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-example-modal-sm">未完了</button></td>
+        <div class="modal fade bd-example-modal-sm mt-5" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <form action="{{ route('todos.update', ['id' => $todo->id]) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="status" value="1">
+                        <button type="submit" class="btn btn-primary">完了済にする</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-- Modal end -->
     @elseif ($danger_todo)
         <td><button type="submit" class="btn btn-danger">期日外</button></td>
     @else
