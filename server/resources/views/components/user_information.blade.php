@@ -40,5 +40,7 @@ list($todo_count, $todo_get) = \App\Models\Todo::checkLimitDayTomorrowTodo(Auth:
     </div>
 </div>
 @else
-    <a class="nav-link" href="{{ route('login') }}">ログイン</a>
+    <div class="d-flex justify-content-center mt-5"> 
+        <a class="btn btn-primary" href="{{ route('login') }}">Twitterログイン</a>
+    </div>
 @endif
