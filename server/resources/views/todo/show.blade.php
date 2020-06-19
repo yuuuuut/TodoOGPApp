@@ -14,7 +14,9 @@ $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
   @if($overDay)
     期限外です
     {{ $todo->content }}
-    <img src="{{ url("todos/{$todo->id}/ogp.png") }}">
+    <div class="d-flex justify-content-center">
+      <img src="{{ url("todos/{$todo->id}/ogp.png") }}" class="img-fluid">
+    </div>
   @else
     期限内です
     {{ $todo->due_date }}

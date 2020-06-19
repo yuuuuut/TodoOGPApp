@@ -7,7 +7,7 @@ $danger_todo = App\Models\Todo::dangerTodoBool($todo->status, $over_day);
 <div class="main">
     @if ($danger_todo)
         <tr><td>{{ $todo->content }}
-        <a href="/todos/{{ $todo->id }}">反省する</a></td>
+        <br><a href="/todos/{{ $todo->id }}">反省する</a></td>
     @else
         <tr><td>{{ $todo->content }}</td>
     @endif
