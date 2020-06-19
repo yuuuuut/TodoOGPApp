@@ -66,7 +66,7 @@ class TodoTest extends TestCase
         $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'due_date' => '2020-01-01']);
         $response = $this->get("/todos/$todo->id");
         $response->assertStatus(200)
-            ->assertSee('期限外です');
+            ->assertSee('\ Twitterにシェアして反省しましょう!! /');
     }
 
     /** @test */
@@ -117,6 +117,17 @@ class TodoTest extends TestCase
         $response = $this->get("/");
         $response->assertStatus(200)
             ->assertSee('期日が明日までのTodoが1件あります');
+    }
+
+    /** @test */
+    public function 期限が過ぎたTodoの削除ができる()
+    {
+        $user = $this->User作成();
+        $todo = factory(Todo::class, 'default')->create(['user_id' => $user->id, 'status' => '0']);
+        $this->assertEquals(1, Todo::count());
+        $response = $this->post(route('todos.delete', $todo->id));
+        $response->assertStatus(302);
+        $this->assertEquals(0, Todo::count());
     }
 
     /** @test */
