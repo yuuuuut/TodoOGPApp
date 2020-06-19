@@ -12,13 +12,20 @@ $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
 
 @section('content')
   @if($overDay)
-    期限外です
-    {{ $todo->content }}
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-5">
       <img src="{{ url("todos/{$todo->id}/ogp.png") }}" class="img-fluid">
     </div>
+    <div class="d-flex justify-content-center mt-5">
+      <h5>\ Twitterにシェアして反省しましょう!! /</h5>
+    </div>
+    <div class="d-flex justify-content-center mt-2">
+      <a href='https://twitter.com/share?ref_src=twsrc%5Etfw&text=期限過ぎちゃった!!%20%23Todoとど' class="twitter-share-button" data-show-count="false">Tweet</a>
+    </div>
   @else
-    期限内です
-    {{ $todo->due_date }}
+    <h4>期限内です</h4>
   @endif
+@endsection
+
+@section('scripts')
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection
