@@ -13,6 +13,7 @@ $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
 @section('content')
   @if($overDay)
     <div class="d-flex justify-content-center mt-5">
+      <div id="loading" class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>
       <img src="{{ url("todos/{$todo->id}/ogp.png") }}" class="img-fluid">
     </div>
     <div class="d-flex justify-content-center mt-5">
@@ -28,4 +29,9 @@ $overDay = \App\Models\Todo::checkOverDueDate($todo->due_date);
 
 @section('scripts')
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script>
+      window.onload = function () {
+        $('#loading').css("display", "none");
+      };
+    </script>
 @endsection
