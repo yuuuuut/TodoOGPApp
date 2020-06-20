@@ -24,7 +24,7 @@ class TodoRequestTest extends TestCase
             'content' => ''
         ];
         $response = $this->post(route('todos.store'), $data);
-        $response->assertSessionHasErrors(['content' => 'The content field is required.']);
+        $response->assertSessionHasErrors(['content' => 'Todo は必須です。']);
         $this->assertEquals(0, Todo::count());
     }
 
@@ -36,7 +36,7 @@ class TodoRequestTest extends TestCase
             'content' => Str::random(26)
         ];
         $response = $this->post(route('todos.store'), $data);
-        $response->assertSessionHasErrors(['content' => 'The content may not be greater than 25 characters.']);
+        $response->assertSessionHasErrors(['content' => 'Todo は 25 文字までです。']);
         $this->assertEquals(0, Todo::count());
     }
 
@@ -48,7 +48,7 @@ class TodoRequestTest extends TestCase
             'due_date' => ''
         ];
         $response = $this->post(route('todos.store'), $data);
-        $response->assertSessionHasErrors(['due_date' => 'The due date field is required.']);
+        $response->assertSessionHasErrors(['due_date' => '期限 は必須です。']);
         $this->assertEquals(0, Todo::count());
     }
 
@@ -61,7 +61,7 @@ class TodoRequestTest extends TestCase
             'due_date' => $today->subDay()->format('Y-m-d')
         ];
         $response = $this->post(route('todos.store'), $data);
-        $response->assertSessionHasErrors(['due_date' => 'The due date must be a date after or equal to today.']);
+        $response->assertSessionHasErrors(['due_date' => '期限 は明日以降を設定してください。']);
         $this->assertEquals(0, Todo::count());
     }
 

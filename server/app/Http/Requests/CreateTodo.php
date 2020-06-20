@@ -28,4 +28,12 @@ class CreateTodo extends FormRequest
             'due_date' => 'required|date|after_or_equal:today',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'content'  => 'Todo',
+            'due_date' => '期限',
+        ];
+    }
 }
