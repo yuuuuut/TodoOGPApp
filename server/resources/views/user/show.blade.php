@@ -3,7 +3,7 @@
 @section('content')
 <!-- Main -->
 <div class="main mt-4">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center text-danger">
         @foreach($errors->all() as $message)
             {{ $message }}<br>
         @endforeach
