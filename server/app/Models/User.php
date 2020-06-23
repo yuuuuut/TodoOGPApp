@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Todo;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -44,5 +45,12 @@ class User extends Authenticatable
     public function todos()
     {
         return $this->hasMany(Todo::class);
+    }
+
+    public static function whereUser()
+    {
+        $user = User::where('uid', Auth::user()->uid)
+                    ->firstOrFail();
+        return $user;
     }
 }
